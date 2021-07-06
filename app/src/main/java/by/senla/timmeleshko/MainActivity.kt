@@ -1,28 +1,30 @@
 package by.senla.timmeleshko
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.IBinder
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.HandlerCompat
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
-/**
- * @author https://developer.android.com/guide/background/threading#kotlin
- */
 class MainActivity : AppCompatActivity() {
+
+    private val mServiceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {}
+        override fun onServiceDisconnected(className: ComponentName) {}
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val intent = Intent(this, StickyService::class.java)
+        Log.i("E", "Starting service: ${startService(intent)}")
+        Log.i("E", "Binding service: ${bindService(intent, mServiceConnection, BIND_AUTO_CREATE)}")
+    }
 
-        /* A Looper is an object that runs the message loop for an associated thread. Once you've
-        created a Handler, you can then use the post(Runnable) method to run a block of code in the corresponding thread.
-         */
-        val executorService: ExecutorService = Executors.newFixedThreadPool(4)
-        val mainThreadHandler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
-        val loginRepository = LoginRepository(executorService, mainThreadHandler)
-        val loginViewModel = LoginViewModel(loginRepository)
-        loginViewModel.makeLoginRequest(this, "hello", "world")
+    fun buttonPressed(view: View) {
+        Log.i("E", "Unbinding service! Current state: ${unbindService(mServiceConnection)}")
     }
 }
