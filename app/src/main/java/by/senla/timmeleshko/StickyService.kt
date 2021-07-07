@@ -1,7 +1,10 @@
 package by.senla.timmeleshko
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
@@ -18,15 +21,25 @@ class StickyService : Service() {
         const val RUNNING = "StickyService is running..."
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onCreate() {
+        Log.i(STICKY_SERVICE, "Service created!")
         addNotification()
-        Log.i("E", "Bounded!")
+        super.onCreate()
+    }
+
+    override fun onDestroy() {
+        Log.i(STICKY_SERVICE, "Service removed!")
+        stopForeground(true)
+        super.onDestroy()
+    }
+
+    override fun onBind(intent: Intent): IBinder? {
+        Log.i(STICKY_SERVICE, "Client bounded!")
         return null
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-        stopForeground(true)
-        Log.i("E", "Unbounded!")
+        Log.i(STICKY_SERVICE, "All clients unbounded!")
         return super.onUnbind(intent)
     }
 
@@ -35,13 +48,16 @@ class StickyService : Service() {
     }
 
     private fun addNotification() {
-        val mNotificationBuilder = NotificationCompat.Builder(this, STICKY_SERVICE_CHANNEL)
+        val channel = NotificationChannel(STICKY_SERVICE_CHANNEL, STICKY_SERVICE, NotificationManager.IMPORTANCE_LOW)
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
+        val builder = NotificationCompat.Builder(this, STICKY_SERVICE_CHANNEL)
             .setContentTitle(STICKY_SERVICE)
             .setContentText(RUNNING)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
         val intent = Intent(this, StickyService::class.java)
         val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-        mNotificationBuilder.setContentIntent(pendingIntent)
-        startForeground(1, mNotificationBuilder.build())
+        builder.setContentIntent(pendingIntent)
+        startForeground(1, builder.build())
     }
 }

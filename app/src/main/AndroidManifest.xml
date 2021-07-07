@@ -15,11 +15,11 @@
             android:name=".StickyService"
             android:enabled="true"
             android:launchMode="singleTop"
-            android:exported="false" />
+            android:exported="false"
+            android:process="by.senla.timmeleshko.stickyprocess" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
