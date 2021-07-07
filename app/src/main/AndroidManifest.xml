@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
+        <!-- singleTop - если при запуске действия на переднем плане уже есть
+            экземпляр того же класса действия, который взаимодействует с пользователем, повторно использует этот экземпляр. -->
         <service
             android:name=".StickyService"
             android:enabled="true"
