@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class AppModule(
     private val context: Context
 ) {
-    @Provides // Методы в медуле, которые возвращают какие-то компоненты
+    @Provides // Методы в модуле, которые возвращают какие-то компоненты
     @Singleton // Один компонент на всё приложение
     fun provideContext(): Context {
         return context
@@ -23,7 +23,7 @@ class AppModule(
 @Module(includes = [AppModule::class]) // Включить в этот модуль другой модуль
 class NetworkModule {
 
-    @Provides // Методы в медуле, которые возвращают какие-то компоненты
+    @Provides // Методы в модуле, которые возвращают какие-то компоненты
     @Singleton // Один компонент на всё приложение
     fun provideNetworkService(context: Context): NetworkService {
         return NetworkServiceImpl(context)

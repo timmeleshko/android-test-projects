@@ -1,1 +1,1 @@
-# android-test-projects
+# android-samples

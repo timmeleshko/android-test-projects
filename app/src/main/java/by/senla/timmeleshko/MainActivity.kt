@@ -54,9 +54,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.e("TAG", "Destroyed!")
     }
-
-    fun buttonPressed(view: View) {
-        val intent = Intent(this, MyActivity().javaClass)
-        startActivity(intent)
-    }
 }
