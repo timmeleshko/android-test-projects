@@ -1,61 +1,50 @@
 package by.senla.timmeleshko
 
-import android.content.Context
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MyActivity : AppCompatActivity() {
 
     @Inject
     lateinit var networkService: NetworkService // Инжектить только public
-
-    @Inject
-    lateinit var appContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as MyApplication).appComponent()
             .inject(this) // Лучше инжектить раньше всего, чтобы инициализация сервиса и контекста прошла до отрисовки
-        setContentView(R.layout.activity_main)
-        Log.e("TAG", "Created! Said: $appContext ${networkService.someString()}")
+        setContentView(R.layout.activity_my)
+        Log.e("TAG", "My: Created! Said ${networkService.someString()}")
     }
 
     override fun onStart() {
         super.onStart()
-        Log.e("TAG", "Started!")
+        Log.e("TAG", "My: Started!")
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.e("TAG", "Restarted!")
+        Log.e("TAG", "My: Restarted!")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.e("TAG", "Resumed!")
+        Log.e("TAG", "My: Resumed!")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.e("TAG", "Paused!")
+        Log.e("TAG", "My: Paused!")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.e("TAG", "Stopped!")
+        Log.e("TAG", "My: Stopped!")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("TAG", "Destroyed!")
-    }
-
-    fun pressActivity(view: View) {
-        val intent = Intent(this, MyActivity::class.java)
-        startActivity(intent)
+        Log.e("TAG", "My: Destroyed!")
     }
 }

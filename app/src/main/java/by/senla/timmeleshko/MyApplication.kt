@@ -6,7 +6,6 @@ import android.util.Log
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -33,7 +32,9 @@ class NetworkModule {
 @Component(modules = [AppModule::class, NetworkModule::class])
 @Singleton // Чтобы даггер не создавал их по многу раз (чтобы не инжектились по многу раз)
 interface ActivityComponent {
+    // В параметрах метода указываются классы, в которые будут прокидываться зависимости
     fun inject(activity: MainActivity) // Конкретная активность, куда прокидывается NetworkService
+    fun inject(activity: MyActivity) // Конкретная активность, куда прокидывается NetworkService
 }
 
 class MyApplication : Application() {
