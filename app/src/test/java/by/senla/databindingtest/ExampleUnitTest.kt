@@ -1,4 +1,4 @@
-package by.senla.timmeleshko
+package by.senla.databindingtest
 
 import org.junit.Test
 
