@@ -1,2 +1,2 @@
 # android-test-projects
-## Demo projects.
+## Demo projects
