@@ -1,4 +1,4 @@
-package by.senla.databindingtest
+package by.senla.mvi
 
 import org.junit.Test
 
