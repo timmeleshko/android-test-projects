@@ -1,10 +1,17 @@
 package by.senla.mvi
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.senla.mvi.intent.MainIntent
 import by.senla.mvi.viewstate.MainState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,14 +22,29 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var notification: TextView
+    private lateinit var loading: ProgressBar
+
+    private var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        recyclerView = findViewById(R.id.recyclerView)
+        notification = findViewById(R.id.notificationTextView)
+        loading = findViewById(R.id.progressBar)
         setupViewModel()
         observeViewModel()
-        lifecycleScope.launch {
-            mainViewModel.mainIntent.send(MainIntent.FetchHTMLData("https://github.com/"))
+        val editText = findViewById<EditText>(R.id.editText)
+        val button = findViewById<Button>(R.id.button)
+        button.setOnClickListener {
+            val text = editText.text.toString()
+            if (text.isNotEmpty()) {
+                lifecycleScope.launch {
+                    mainViewModel.mainIntent.send(MainIntent.FetchHTMLData(text))
+                }
+            }
         }
     }
 
@@ -32,16 +54,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        val tv = findViewById<TextView>(R.id.textView)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = this@MainActivity.adapter
+        }
         lifecycleScope.launch {
             mainViewModel.state.collect {
-                tv.text = when (it) {
-                    is MainState.NoState -> ""
-                    is MainState.Loading -> "Loading..."
-                    is MainState.Success -> it.data.toString()
-                    is MainState.Error -> it.error
+                when (it) {
+                    is MainState.NoState -> {
+                        notification.text = getString(R.string.no_data)
+                        toggleVisibility(notification)
+                    }
+                    is MainState.Loading -> toggleVisibility(loading)
+                    is MainState.Success -> {
+                        toggleVisibility(recyclerView)
+                        adapter.updateItems(it.data)
+                    }
+                    is MainState.Error -> {
+                        notification.text = it.error
+                        toggleVisibility(notification)
+                    }
                 }
             }
         }
+    }
+
+    private fun toggleVisibility(view: View) {
+        recyclerView.isVisible = false
+        notification.isVisible = false
+        loading.isVisible = false
+        view.isVisible = true
     }
 }
