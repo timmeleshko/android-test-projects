@@ -15,12 +15,13 @@ import java.io.InputStreamReader
 
 class NetworkRepository {
 
-    fun getData(uri: String): Flowable<List<String>> {
+    fun getData(uri: String, find: String?): Flowable<List<String>> {
         val callback = RestClient.getRetrofitService().readHTMLData(uri)
         val flowable = Flowable.create<List<String>> ({ subscriber ->
             callback.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    val stringArray = processResponse(response.body())
+                    var stringArray = processResponse(response.body())
+                    find?.let { stringArray = stringArray.filter { sa -> sa.contains(find, true) } }
                     subscriber.onNext(stringArray)
                     subscriber.onComplete()
                 }
@@ -51,7 +52,7 @@ class NetworkRepository {
                     }
                 }
                 return stringList
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 e.printStackTrace()
             } finally {
                 if (bufferedReader != null) {

@@ -6,27 +6,41 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="RecyclerViewItem">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="DefaultText">
+        <item name="android:textColor">@color/black</item>
     </style>
-    <style name="NotificationText">
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="UniformText" parent="DefaultText">
         <item name="autoSizeTextType">uniform</item>
     </style>
+    <style name="UniformSingleLineText" parent="UniformText">
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="RecyclerViewItem" parent="DefaultText">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="NotificationText" parent="UniformText">
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="ErrorText" parent="UniformText">
+        <item name="android:gravity">center</item>
+        <item name="autoSizeMaxTextSize">24sp</item>
+    </style>
     <style name="EditTextStyle">
-        <item name="android:textColor">@color/white</item>
         <item name="android:ems">10</item>
+    </style>
+    <style name="UriEditTextStyle" parent="EditTextStyle">
         <item name="android:hint">@string/website_url</item>
         <item name="android:inputType">textUri</item>
+    </style>
+    <style name="FindEditTextStyle" parent="EditTextStyle">
+        <item name="android:hint">@string/find</item>
+        <item name="android:inputType">text</item>
     </style>
 </resources>

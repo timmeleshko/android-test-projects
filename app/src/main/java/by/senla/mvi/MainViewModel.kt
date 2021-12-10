@@ -30,14 +30,21 @@ class MainViewModel(
         viewModelScope.launch {
             mainIntent.consumeAsFlow().collect {
                 when (it) {
-                    is MainIntent.FetchHTMLData -> fetchData(it.uri)
+                    is MainIntent.FetchHTMLData -> fetchData(it.uri, it.find)
+                    is MainIntent.ShowFind -> showFind()
                 }
             }
         }
     }
 
-    private fun fetchData(uri: String) {
-        repository.getData(uri)
+    private fun showFind() {
+        viewModelScope.launch {
+            _state.value = MainState.Finding
+        }
+    }
+
+    private fun fetchData(uri: String, find: String?) {
+        repository.getData(uri, find)
             .subscribe(object : Subscriber<List<String>> {
                 override fun onSubscribe(s: Subscription?) {
                     Log.e(RX_TAG, "Subscribed!")

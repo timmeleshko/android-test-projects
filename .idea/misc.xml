@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/fragment_demo.xml" value="0.35833333333333334" />
-        <entry key="app/src/main/res/layout/main_activity.xml" value="0.4602272727272727" />
+        <entry key="app/src/main/res/layout/main_activity.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/main_find.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/main_notifications.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/recycler_view_item.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/menu/options.xml" value="0.33" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22870370370370371" />
       </map>
     </option>
   </component>

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black_40">
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -28,25 +27,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/notificationTextView"
-        style="@style/NotificationText"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_high"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_high"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Something..." />
+        app:layout_constraintTop_toBottomOf="@+id/editText">
+
+        <include
+            android:id="@+id/included"
+            layout="@layout/main_notifications" />
+
+        <include
+            android:id="@+id/includedFind"
+            layout="@layout/main_find" />
+
+    </FrameLayout>
 
     <EditText
         android:id="@+id/editText"
-        style="@style/EditTextStyle"
+        style="@style/UriEditTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
@@ -58,7 +63,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="LabelFor" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

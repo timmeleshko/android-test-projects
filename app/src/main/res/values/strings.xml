@@ -3,4 +3,6 @@
     <string name="no_data">No data!</string>
     <string name="website_url">Website url</string>
     <string name="show_source">Show source</string>
+    <string name="find">Find...</string>
+    <string name="find_now">Find!</string>
 </resources>
